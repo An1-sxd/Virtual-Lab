@@ -14,6 +14,7 @@ import { useExperimentState } from "@/hooks/useExperimentState";
 import { AcidBaseSetup } from "@/components/experiment/AcidBaseSetup";
 import { ReactionEquations } from "@/components/experiment/ReactionEquations";
 import { GraphsVisualization } from "@/components/experiment/GraphsVisualization";
+import { Save } from "lucide-react";
 
 const Experiment = () => {
   const { id } = useParams();
@@ -56,12 +57,7 @@ const Experiment = () => {
 
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm">
-              <Download className="h-4 w-4" />
-              <span className="hidden sm:inline ml-2">Export</span>
-            </Button>
-            <Button variant="outline" size="sm">
-              <Settings className="h-4 w-4" />
-              <span className="hidden sm:inline ml-2">Settings</span>
+              <Save className="h-4 w-4" />
             </Button>
           </div>
         </div>
