@@ -151,9 +151,10 @@ export const AcidBaseSetup = ({
                   className="volume-slider-vertical"
                   style={{
                     width: '180px',
-                    height: '40px',
-                    transform: 'rotate(-90deg)',
+                    height: '8px',
+                    transform: 'rotate(90deg)',
                     transformOrigin: 'center',
+                    background: `linear-gradient(to right, hsl(var(--primary)) ${(titratedVolume/maxVolume)*100}%, transparent ${(titratedVolume/maxVolume)*100}%)`
                   }}
                 />
               </div>
