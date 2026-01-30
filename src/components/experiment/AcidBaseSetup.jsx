@@ -6,22 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { FlaskVisualization } from './FlaskVisualization';
 
-import { useSubstances } from '@/hooks/useSubstances';
-
-// Fallback data in case API fails or is loading
-const defaultAcids = [
-  { value: 'HCl', label: 'HCl (Hydrochloric Acid)' },
-  { value: 'H2SO4', label: 'H₂SO₄ (Sulfuric Acid)' },
-  { value: 'HNO3', label: 'HNO₃ (Nitric Acid)' },
-  { value: 'CH3COOH', label: 'CH₃COOH (Acetic Acid)' },
-];
-
-const defaultBases = [
-  { value: 'NaOH', label: 'NaOH (Sodium Hydroxide)' },
-  { value: 'KOH', label: 'KOH (Potassium Hydroxide)' },
-  { value: 'Ca(OH)2', label: 'Ca(OH)₂ (Calcium Hydroxide)' },
-  { value: 'NH3', label: 'NH₃ (Ammonia)' },
-];
+import { substances } from '../../lib/substances';
 
 export const AcidBaseSetup = ({
   state,
@@ -29,31 +14,13 @@ export const AcidBaseSetup = ({
   titratedVolume,
   onAcidChange,
   onBaseChange,
-  onReset,
   onVolumeChange,
   maxVolume = 50,
   runSimulation,
   pauseSimulation,
   resetSimulation,
 }) => {
-  const { data: substances, isLoading, isError } = useSubstances();
-  console.log(substances);
-
-  const acids = React.useMemo(() => {
-    if (!substances || isError) return defaultAcids;
-    const filtered = substances.filter(s => s.sub_type && s.sub_type.includes('acid'));
-    return filtered.length > 0
-      ? filtered.map(s => ({ value: s.formula, label: `${s.formula} (${s.name})` }))
-      : defaultAcids;
-  }, [substances, isError]);
-
-  const bases = React.useMemo(() => {
-    if (!substances || isError) return defaultBases;
-    const filtered = substances.filter(s => s.sub_type && s.sub_type.includes('base'));
-    return filtered.length > 0
-      ? filtered.map(s => ({ value: s.formula, label: `${s.formula} (${s.name})` }))
-      : defaultBases;
-  }, [substances, isError]);
+  const { acids, bases, isLoading } = substances();
 
   const [stepAmount, setStepAmount] = React.useState(0.1);
 
@@ -313,13 +280,6 @@ export const AcidBaseSetup = ({
                 />
               </div>
             </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" onClick={onReset} className="w-full">
-              Reset Details
-            </Button>
           </div>
         </div>
       </div>

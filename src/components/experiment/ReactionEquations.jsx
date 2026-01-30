@@ -1,5 +1,7 @@
 import React from 'react';
 import { FileText } from 'lucide-react';
+import { substances } from '../../lib/substances';
+import { useApi, useApiBody } from '../../hooks/useApi';
 
 export const ReactionEquations = ({
   state,
@@ -7,6 +9,34 @@ export const ReactionEquations = ({
   titratedVolume,
 }) => {
   // Format chemical equation based on selected acid and base
+  const { acids, bases, isLoading } = substances();
+  const acid = acids.find(a => a.value === state.acidType);
+  const base = bases.find(b => b.value === state.baseType);
+  console.log(acid, base)
+
+  const sent = React.useMemo(() => {
+    if (!acid || !base) return null;
+    return {
+      "acid": {
+        "type": acid.type,
+        "formula": acid.value,
+        "species_formula": acid.s_value,
+        "species_charge": acid.c_value
+      },
+      "base": {
+        "type": base.type,
+        "formula": base.value,
+        "species_formula": base.s_value,
+        "species_charge": base.c_value
+      }
+    };
+  }, [acid, base]);
+
+  console.log("Sent to API:", sent);
+
+  const { data: eq, isLoading: eq_loading, isError } = useApiBody("operations/equation", sent, { enabled: !!sent });
+  console.log("Equation Data:", eq);
+
   const getReactionEquation = () => {
     const reactions = {
       'HCl': {
@@ -46,12 +76,12 @@ export const ReactionEquations = ({
     const totalBase = calculated.nB;
     const reacted = Math.min(totalAcid, totalBase);
     const remaining = Math.abs(totalAcid - totalBase);
-    
+
     return {
       initial: { acid: totalAcid, base: 0 },
       change: { acid: -reacted, base: reacted },
-      equilibrium: { 
-        acid: totalAcid - reacted, 
+      equilibrium: {
+        acid: totalAcid - reacted,
         base: totalBase,
         excess: remaining
       }
@@ -68,7 +98,7 @@ export const ReactionEquations = ({
         </div>
         <h2 className="font-display font-semibold text-lg">Reaction & Equations</h2>
       </div>
-      
+
 
       {/* Row Layout: Equation & Table on left, Calculated Values on right */}
       <div className="flex flex-col lg:flex-row gap-6 items-start">
@@ -193,19 +223,19 @@ export const ReactionEquations = ({
           <div className="bg-gradient-to-r from-red-500/10 via-green-500/10 to-blue-500/10 rounded-lg p-3 border border-border">
             <p className="text-xs text-muted-foreground mb-1">Current pH</p>
             <p className="font-mono text-xl font-bold" style={{
-              color: calculated.pH < 6 
-                ? 'hsl(0, 70%, 50%)' 
-                : calculated.pH > 8 
-                  ? 'hsl(220, 70%, 50%)' 
+              color: calculated.pH < 6
+                ? 'hsl(0, 70%, 50%)'
+                : calculated.pH > 8
+                  ? 'hsl(220, 70%, 50%)'
                   : 'hsl(120, 50%, 45%)'
             }}>
               {calculated.pH.toFixed(2)}
             </p>
             <p className="text-xs text-muted-foreground mt-1">
-              {calculated.pH < 7 
-                ? `Acidic (excess H⁺)` 
-                : calculated.pH > 7 
-                  ? `Basic (excess OH⁻)` 
+              {calculated.pH < 7
+                ? `Acidic (excess H⁺)`
+                : calculated.pH > 7
+                  ? `Basic (excess OH⁻)`
                   : `Neutral (equivalence point)`}
             </p>
           </div>
@@ -217,7 +247,7 @@ export const ReactionEquations = ({
               V_b = <span className="font-mono font-semibold">{calculated.equivalencePoint.toFixed(2)} mL</span>
             </p>
             <p className="text-xs text-muted-foreground mt-1">
-              Time until equilibrium: {(calculated.equivalencePoint - titratedVolume) > 0 
+              Time until equilibrium: {(calculated.equivalencePoint - titratedVolume) > 0
                 ? `${((calculated.equivalencePoint - titratedVolume) / 5).toFixed(1)} steps`
                 : 'Reached'}
             </p>

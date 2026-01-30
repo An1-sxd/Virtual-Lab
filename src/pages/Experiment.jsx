@@ -2,12 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { LabLogo } from "@/components/LabLogo";
 import { 
-  ArrowLeft, 
-  Play, 
-  Pause, 
-  RotateCcw, 
-  Settings, 
-  Download,
+  ArrowLeft,
 } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { useExperimentState } from "@/hooks/useExperimentState";
@@ -33,8 +28,6 @@ const Experiment = () => {
     runSimulation,
     pauseSimulation,
     resetSimulation,
-    addReagent,
-    removeReagent,
   } = useExperimentState();
 
   return (
