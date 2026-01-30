@@ -6,14 +6,17 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { FlaskVisualization } from './FlaskVisualization';
 
-const acids = [
+import { useSubstances } from '@/hooks/useSubstances';
+
+// Fallback data in case API fails or is loading
+const defaultAcids = [
   { value: 'HCl', label: 'HCl (Hydrochloric Acid)' },
   { value: 'H2SO4', label: 'H₂SO₄ (Sulfuric Acid)' },
   { value: 'HNO3', label: 'HNO₃ (Nitric Acid)' },
   { value: 'CH3COOH', label: 'CH₃COOH (Acetic Acid)' },
 ];
 
-const bases = [
+const defaultBases = [
   { value: 'NaOH', label: 'NaOH (Sodium Hydroxide)' },
   { value: 'KOH', label: 'KOH (Potassium Hydroxide)' },
   { value: 'Ca(OH)2', label: 'Ca(OH)₂ (Calcium Hydroxide)' },
@@ -33,6 +36,25 @@ export const AcidBaseSetup = ({
   pauseSimulation,
   resetSimulation,
 }) => {
+  const { data: substances, isLoading, isError } = useSubstances();
+  console.log(substances);
+
+  const acids = React.useMemo(() => {
+    if (!substances || isError) return defaultAcids;
+    const filtered = substances.filter(s => s.sub_type && s.sub_type.includes('acid'));
+    return filtered.length > 0
+      ? filtered.map(s => ({ value: s.formula, label: `${s.formula} (${s.name})` }))
+      : defaultAcids;
+  }, [substances, isError]);
+
+  const bases = React.useMemo(() => {
+    if (!substances || isError) return defaultBases;
+    const filtered = substances.filter(s => s.sub_type && s.sub_type.includes('base'));
+    return filtered.length > 0
+      ? filtered.map(s => ({ value: s.formula, label: `${s.formula} (${s.name})` }))
+      : defaultBases;
+  }, [substances, isError]);
+
   const [stepAmount, setStepAmount] = React.useState(0.1);
 
   const handleVolumeChange = (newVolume) => {
@@ -196,9 +218,10 @@ export const AcidBaseSetup = ({
                 <Select 
                   value={state.acidType} 
                   onValueChange={(v) => onAcidChange(v, state.acidConcentration, state.acidVolume)}
+                  disabled={isLoading}
                 >
                   <SelectTrigger className="bg-background">
-                    <SelectValue />
+                    <SelectValue placeholder={isLoading ? "Loading..." : "Select Acid"} />
                   </SelectTrigger>
                   <SelectContent className="bg-card border border-border z-50">
                     {acids.map((acid) => (
@@ -219,6 +242,7 @@ export const AcidBaseSetup = ({
                   value={state.acidConcentration}
                   onChange={(e) => onAcidChange(state.acidType, parseFloat(e.target.value) || 0.1, state.acidVolume)}
                   className="bg-background"
+                  disabled={isLoading}
                 />
               </div>
               <div>
@@ -231,6 +255,7 @@ export const AcidBaseSetup = ({
                   value={state.acidVolume}
                   onChange={(e) => onAcidChange(state.acidType, state.acidConcentration, parseFloat(e.target.value) || 25)}
                   className="bg-background"
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -248,9 +273,10 @@ export const AcidBaseSetup = ({
                 <Select 
                   value={state.baseType} 
                   onValueChange={(v) => onBaseChange(v, state.baseConcentration, state.baseVolume)}
+                  disabled={isLoading}
                 >
                   <SelectTrigger className="bg-background">
-                    <SelectValue />
+                    <SelectValue placeholder={isLoading ? "Loading..." : "Select Base"} />
                   </SelectTrigger>
                   <SelectContent className="bg-card border border-border z-50">
                     {bases.map((base) => (
@@ -271,6 +297,7 @@ export const AcidBaseSetup = ({
                   value={state.baseConcentration}
                   onChange={(e) => onBaseChange(state.baseType, parseFloat(e.target.value) || 0.1, state.baseVolume)}
                   className="bg-background"
+                  disabled={isLoading}
                 />
               </div>
               <div>
