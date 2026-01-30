@@ -15,6 +15,7 @@ import { AcidBaseSetup } from "@/components/experiment/AcidBaseSetup";
 import { ReactionEquations } from "@/components/experiment/ReactionEquations";
 import { GraphsVisualization } from "@/components/experiment/GraphsVisualization";
 import { Save } from "lucide-react";
+import ChatBox from "../components/ChatBox";
 
 const Experiment = () => {
   const { id } = useParams();
@@ -39,6 +40,7 @@ const Experiment = () => {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
+      <ChatBox />
       <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-40">
         <div className="flex items-center justify-between px-6 py-4">
           <div className="flex items-center gap-6">
