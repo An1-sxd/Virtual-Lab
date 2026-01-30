@@ -68,6 +68,7 @@ export const ReactionEquations = ({
         </div>
         <h2 className="font-display font-semibold text-lg">Reaction & Equations</h2>
       </div>
+      
 
       {/* Row Layout: Equation & Table on left, Calculated Values on right */}
       <div className="flex flex-col lg:flex-row gap-6 items-start">

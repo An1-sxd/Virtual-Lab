@@ -63,10 +63,10 @@ export const VolumeControl = ({
           </div>
         </div>
         
-        <div className="flex items-end justify-between gap-4 pt-2 border-t border-border">
-             <div className="w-32">
-               <Label className="text-xs text-muted-foreground mb-2 block">Step Amount</Label>
-               <div className="relative">
+        <div className="flex items-center justify-between gap-4 pt-2 border-t border-border">
+             <div className="flex items-center gap-2">
+               <Label className="text-xs text-muted-foreground whitespace-nowrap">Step Amount</Label>
+               <div className="relative w-24">
                  <Input
                    type="number"
                    min="0.1"

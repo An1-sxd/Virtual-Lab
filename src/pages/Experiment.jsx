@@ -102,6 +102,9 @@ const Experiment = () => {
                   onReset={resetSimulation}
                   onVolumeChange={setTitratedVolume}
                   maxVolume={calculated.equivalencePoint > 0 ? calculated.equivalencePoint * 2 : 50}
+                  runSimulation={runSimulation}
+                  pauseSimulation={pauseSimulation}
+                  resetSimulation={resetSimulation}
                 />
 
                 {/* Box 2: Reaction & Equations */}
@@ -125,7 +128,7 @@ const Experiment = () => {
           </Tabs>
 
           {/* Simulation Controls - Moved to Bottom */}
-          <div className="lab-card p-4 mt-6">
+          {/* <div className="lab-card p-4 mt-6">
             <div className="flex flex-wrap items-center gap-3">
               <Button 
                 variant="labPrimary" 
@@ -157,7 +160,7 @@ const Experiment = () => {
                 Reset
               </Button>
             </div>
-          </div>
+          </div> */}
         </div>
       </main>
     </div>
