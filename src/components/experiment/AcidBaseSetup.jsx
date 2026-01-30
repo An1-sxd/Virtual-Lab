@@ -1,5 +1,5 @@
 import React from 'react';
-import { Beaker, Plus, Minus } from 'lucide-react';
+import { Beaker, Plus, Minus, Play, Pause, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -29,6 +29,9 @@ export const AcidBaseSetup = ({
   onReset,
   onVolumeChange,
   maxVolume = 50,
+  runSimulation,
+  pauseSimulation,
+  resetSimulation,
 }) => {
   const [stepAmount, setStepAmount] = React.useState(0.1);
 
@@ -53,11 +56,45 @@ export const AcidBaseSetup = ({
 
   return (
     <div className="lab-card p-6 h-full">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="lab-gradient rounded-lg p-2">
-          <Beaker className="h-5 w-5 text-primary-foreground" />
+      <div className="flex items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-3">
+          <div className="lab-gradient rounded-lg p-2">
+            <Beaker className="h-5 w-5 text-primary-foreground" />
+          </div>
+          <h2 className="font-display font-semibold text-lg">Acid & Base Setup</h2>
         </div>
-        <h2 className="font-display font-semibold text-lg">Acid & Base Setup</h2>
+        
+        <div className="flex items-center gap-2">
+          <Button 
+            variant="labPrimary" 
+            size="sm" 
+            className="gap-2"
+            onClick={runSimulation}
+            disabled={state.isRunning && !state.isPaused}
+          >
+            <Play className="h-4 w-4" />
+            {state.isRunning && !state.isPaused ? 'Running...' : 'Run'}
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="gap-2"
+            onClick={pauseSimulation}
+            disabled={!state.isRunning || state.isPaused}
+          >
+            <Pause className="h-4 w-4" />
+            Pause
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="gap-2"
+            onClick={resetSimulation}
+          >
+            <RotateCcw className="h-4 w-4" />
+            Reset
+          </Button>
+        </div>
       </div>
 
       {/* Row Layout: Visualization on left, Controls on right */}
@@ -76,17 +113,19 @@ export const AcidBaseSetup = ({
 
           {/* Vertical Volume Slider */}
           <div className="flex flex-col items-center gap-2 px-4 border-l border-border" style={{ height: '400px' }}>
-            <div className="text-xs text-muted-foreground font-semibold">Step</div>
-            <Input
-              type="number"
-              min="0.1"
-              max="10"
-              step="0.1"
-              value={stepAmount}
-              onChange={(e) => handleStepChange(e.target.value)}
-              className="w-16 h-8 text-xs text-center font-mono"
-            />
-            <div className="text-xs text-muted-foreground">mL</div>
+            <div className="flex items-center gap-1.5 pt-2 mb-1">
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Step</span>
+              <Input
+                type="number"
+                min="0.1"
+                max="10"
+                step="0.1"
+                value={stepAmount}
+                onChange={(e) => handleStepChange(e.target.value)}
+                className="w-12 h-7 text-xs text-center font-mono p-1"
+              />
+              <span className="text-[10px] text-muted-foreground font-medium uppercase">mL</span>
+            </div>
             
             <div className="flex-1 flex flex-col items-center justify-center gap-3 py-2">
               {/* Plus Button */}
@@ -131,12 +170,12 @@ export const AcidBaseSetup = ({
               </Button>
               
               {/* Volume Display */}
-              <div className="bg-primary/10 rounded-lg px-3 py-2 border border-primary/20 mt-2">
-                <div className="text-xs text-muted-foreground text-center mb-1">Volume</div>
-                <div className="font-mono text-lg font-bold text-primary text-center">
+              <div className="bg-primary/5 rounded-full px-3 py-1.5 border border-primary/10 mt-2 flex items-center gap-2 whitespace-nowrap">
+                <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Volume</span>
+                <span className="font-mono text-sm font-bold text-primary">
                   {titratedVolume.toFixed(1)}
-                </div>
-                <div className="text-xs text-muted-foreground text-center">mL</div>
+                </span>
+                <span className="text-[10px] text-muted-foreground font-medium uppercase">mL</span>
               </div>
             </div>
           </div>

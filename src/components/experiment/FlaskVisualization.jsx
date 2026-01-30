@@ -160,11 +160,6 @@ export const FlaskVisualization = ({
         </g>
 
       </svg>
-      
-      {/* Dynamic Caption */}
-      <div className="absolute top-4 right-4 text-xs font-mono text-muted-foreground bg-white/80 p-2 rounded border border-border">
-        pH: {pH.toFixed(2)}
-      </div>
     </div>
   );
 };
