@@ -16,21 +16,23 @@ const defaultAcids = [
   ];
 
 export const substances = () => {
-    const { data: substances, loading: isLoading, error: isError } = useFetch("substances");
+    const { data: substances, loading: isLoading, error: isError } = useFetch("substances/");
 
     const acids = React.useMemo(() => {
         if (!substances || isError) return defaultAcids;
         const filtered = substances.filter(s => s.sub_type && s.sub_type.includes('acid'));
-        return filtered.length > 0
-            ? filtered.map(s => ({ value: s.formula, label: `${s.formula} (${s.name})`, type: s.sub_type.split("_")[0], s_value: s.species_formula, c_value: s.species_charge }))
+        const unique = Array.from(new Map(filtered.map(s => [s.formula, s])).values());
+        return unique.length > 0
+            ? unique.map(s => ({ value: s.formula, label: `${s.formula} (${s.name})`, type: s.sub_type.split("_")[0], s_value: s.species_formula, c_value: s.species_charge }))
             : defaultAcids;
     }, [substances, isError]);
 
     const bases = React.useMemo(() => {
         if (!substances || isError) return defaultBases;
         const filtered = substances.filter(s => s.sub_type && s.sub_type.includes('base'));
-        return filtered.length > 0
-            ? filtered.map(s => ({ value: s.formula, label: `${s.formula} (${s.name})`, type: s.sub_type.split("_")[0], s_value: s.species_formula, c_value: s.species_charge }))
+        const unique = Array.from(new Map(filtered.map(s => [s.formula, s])).values());
+        return unique.length > 0
+            ? unique.map(s => ({ value: s.formula, label: `${s.formula} (${s.name})`, type: s.sub_type.split("_")[0], s_value: s.species_formula, c_value: s.species_charge }))
             : defaultBases;
     }, [substances, isError]);
 

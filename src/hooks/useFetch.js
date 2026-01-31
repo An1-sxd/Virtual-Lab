@@ -24,7 +24,7 @@ export const useFetch = (key, options = {}) => {
       setError(null);
 
       try {
-        const res = await fetch(`http://${ip}/${key}/`, {
+        const res = await fetch(`http://${ip}/${key}`, {
           method,
           headers: {
             "Content-Type": "application/json",

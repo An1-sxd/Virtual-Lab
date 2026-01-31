@@ -36,7 +36,7 @@ export const ReactionEquations = ({
     {
       method: "POST",
       body: sent,
-      enabled: !!sent,
+      enabled: !!sent?.acid?.type && !!sent?.base?.type,
     }
   );
 
@@ -74,7 +74,19 @@ export const ReactionEquations = ({
     return reactions[state.acidType]?.[state.baseType] || { reactants: 'Base + Acid', products: 'Salt + Water' };
   };
 
-  const reaction = getReactionEquation();
+  const reaction = React.useMemo(() => {
+    if (data && data.molecular) {
+      const productsSide = data.molecular.split('->')[1].trim();
+      // Ensure Base + Acid order for color matching (Blue + Red)
+      const baseTerm = data.base_coeff === 1 ? state.baseType : `${data.base_coeff} ${state.baseType}`;
+      const acidTerm = data.acid_coeff === 1 ? state.acidType : `${data.acid_coeff} ${state.acidType}`;
+      return {
+        reactants: `${baseTerm} + ${acidTerm}`,
+        products: productsSide
+      };
+    }
+    return getReactionEquation();
+  }, [data, state.baseType, state.acidType]);
 
   // Calculate reaction progress
   const calculateProgress = () => {
