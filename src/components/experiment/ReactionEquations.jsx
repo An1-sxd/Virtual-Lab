@@ -7,8 +7,38 @@ export const ReactionEquations = ({
   calculated,
   titratedVolume,
 }) => {
-  const {data, loading, error} = equation(state);
+  const { data, loading, error } = equation(state);
 
+  const getReactionEquation = () => {
+    const reactions = {
+      'HCl': {
+        'NaOH': { reactants: 'NaOH + HCl', products: 'NaCl + H₂O' },
+        'KOH': { reactants: 'KOH + HCl', products: 'KCl + H₂O' },
+        'Ca(OH)2': { reactants: 'Ca(OH)₂ + 2HCl', products: 'CaCl₂ + 2H₂O' },
+        'NH3': { reactants: 'NH₃ + HCl', products: 'NH₄Cl' },
+      },
+      'H2SO4': {
+        'NaOH': { reactants: '2NaOH + H₂SO₄', products: 'Na₂SO₄ + 2H₂O' },
+        'KOH': { reactants: '2KOH + H₂SO₄', products: 'K₂SO₄ + 2H₂O' },
+        'Ca(OH)2': { reactants: 'Ca(OH)₂ + H₂SO₄', products: 'CaSO₄ + 2H₂O' },
+        'NH3': { reactants: '2NH₃ + H₂SO₄', products: '(NH₄)₂SO₄' },
+      },
+      'HNO3': {
+        'NaOH': { reactants: 'NaOH + HNO₃', products: 'NaNO₃ + H₂O' },
+        'KOH': { reactants: 'KOH + HNO₃', products: 'KNO₃ + H₂O' },
+        'Ca(OH)2': { reactants: 'Ca(OH)₂ + 2HNO₃', products: 'Ca(NO₃)₂ + 2H₂O' },
+        'NH3': { reactants: 'NH₃ + HNO₃', products: 'NH₄NO₃' },
+      },
+      'CH3COOH': {
+        'NaOH': { reactants: 'NaOH + CH₃COOH', products: 'CH₃COONa + H₂O' },
+        'KOH': { reactants: 'KOH + CH₃COOH', products: 'CH₃COOK + H₂O' },
+        'Ca(OH)2': { reactants: 'Ca(OH)₂ + 2CH₃COOH', products: '(CH₃COO)₂Ca + 2H₂O' },
+        'NH3': { reactants: 'NH₃ + CH₃COOH', products: 'CH₃COONH₄' },
+      },
+    };
+
+    return reactions[state.acidType]?.[state.baseType] || { reactants: 'Base + Acid', products: 'Salt + Water' };
+  };
   const reaction = React.useMemo(() => {
     if (data && data.molecular) {
       const productsSide = data.molecular.split('->')[1].trim();
