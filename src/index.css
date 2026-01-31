@@ -8,45 +8,49 @@
 
 @layer base {
   :root {
-    /* Core palette - Scientific Teal Theme */
-    --background: 210 20% 98%;
+    /* Core palette - Scientific Teal Theme (Refined) */
+    --background: 210 17% 98%;    /* #F8F9FA */
     --foreground: 210 40% 11%;
 
-    --card: 0 0% 100%;
+    --card: 0 0% 100%;           /* #FFFFFF */
     --card-foreground: 210 40% 11%;
 
     --popover: 0 0% 100%;
     --popover-foreground: 210 40% 11%;
 
-    /* Primary - Deep Teal */
-    --primary: 187 65% 28%;
+    /* Primary - Bright Teal (#23c4c4) */
+    --primary: 180 70% 45%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary - Light Cyan */
-    --secondary: 187 30% 94%;
-    --secondary-foreground: 187 65% 28%;
+    /* Secondary - Light Cyan (#EBF8F8) */
+    --secondary: 180 40% 95%;
+    --secondary-foreground: 180 70% 45%;
 
-    --muted: 210 20% 96%;
-    --muted-foreground: 210 15% 45%;
+    /* Muted (#F1F5F9) */
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    /* Accent - Vibrant Cyan */
-    --accent: 187 80% 42%;
+    /* Accent - Bright Teal (#23c4c4) */
+    --accent: 180 70% 45%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 51%;
+    /* Status Colors */
+    --destructive: 0 72% 51%;    /* #DC2626 */
     --destructive-foreground: 0 0% 100%;
+    --success: 142 71% 36%;      /* #16A34A */
+    --info: 180 70% 45%;         /* #23c4c4 */
 
-    --border: 210 20% 90%;
-    --input: 210 20% 90%;
-    --ring: 187 65% 28%;
+    --border: 214 32% 91%;       /* #E2E8F0 */
+    --input: 214 32% 91%;
+    --ring: 180 70% 45%;
 
     --radius: 0.75rem;
 
     /* Custom Lab Colors */
-    --lab-glow: 187 80% 50%;
-    --lab-surface: 210 25% 97%;
-    --lab-gradient-start: 187 65% 28%;
-    --lab-gradient-end: 199 89% 48%;
+    --lab-glow: 180 70% 45%;
+    --lab-surface: 180 20% 98%;
+    --lab-gradient-start: 180 70% 45%;
+    --lab-gradient-end: 180 80% 42%;
     
     /* Shadows */
     --shadow-sm: 0 1px 2px 0 hsl(210 20% 11% / 0.05);
@@ -66,38 +70,45 @@
   }
 
   .dark {
-    --background: 210 40% 8%;
+    /* Core palette - Scientific Teal Theme (Dark Mode Refined) */
+    --background: 210 29% 6%;    /* #0C1116 */
     --foreground: 210 20% 98%;
 
-    --card: 210 35% 12%;
+    --card: 215 25% 10%;           /* #13181E */
     --card-foreground: 210 20% 98%;
 
-    --popover: 210 35% 12%;
+    --popover: 215 25% 10%;
     --popover-foreground: 210 20% 98%;
 
-    --primary: 187 70% 45%;
+    /* Primary - Bright Teal (#23C4C4) */
+    --primary: 180 70% 45%;
     --primary-foreground: 210 40% 8%;
 
-    --secondary: 210 30% 18%;
-    --secondary-foreground: 187 70% 45%;
+    /* Secondary - Dark Teal-Grey (#202D2D) */
+    --secondary: 180 17% 15%;
+    --secondary-foreground: 180 70% 45%;
 
-    --muted: 210 30% 15%;
-    --muted-foreground: 210 15% 60%;
+    /* Muted (#1E293B) */
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
 
-    --accent: 187 80% 50%;
+    /* Accent - Neon Cyan (#17E6E6) */
+    --accent: 180 82% 50%;
     --accent-foreground: 210 40% 8%;
 
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 100%;
+    --success: 142 70% 45%;
+    --info: 180 70% 45%;
 
-    --border: 210 30% 20%;
-    --input: 210 30% 20%;
-    --ring: 187 70% 45%;
+    --border: 217 19% 23%;       /* #2D3748 approach */
+    --input: 217 19% 23%;
+    --ring: 180 70% 45%;
 
-    --lab-glow: 187 80% 55%;
+    --lab-glow: 180 80% 55%;
     --lab-surface: 210 35% 10%;
-    --lab-gradient-start: 187 70% 40%;
-    --lab-gradient-end: 199 80% 50%;
+    --lab-gradient-start: 180 70% 40%;
+    --lab-gradient-end: 180 82% 50%;
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
@@ -109,6 +120,7 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
+
 
 @layer base {
   * {

@@ -18,52 +18,39 @@ export const GraphsVisualization = ({
 
   // Format backend data for Recharts if available
   const pHCurveData = React.useMemo(() => {
-    const data = [];
-    const Veq = calculated.equivalencePoint || 25;
-    const maxV = Veq * 2;
-    const k = 1.2; // controls steepness
-  
-    for (let v = 0; v <= maxV; v += maxV / 200) {
-      // sigmoid centered at equivalence
-      const sigmoid = 1 / (1 + Math.exp(-k * (v - Veq)));
-  
-      // map sigmoid to pH range [1 → 13]
-      const pH = 1 + sigmoid * 12;
-  
-      data.push({
-        volume: Number(v.toFixed(2)),
-        pH: Number(pH.toFixed(2)),
-      });
+    if (graphData && graphData.x_axes && graphData.y_axes) {
+      return graphData.x_axes.map((vol, i) => ({
+        volume: Number(vol),
+        pH: Number(graphData.y_axes[i])
+      }));
     }
-  
-    return data;
-  }, [calculated.equivalencePoint]);
-  
+    return clientPHData;
+  }, [graphData, clientPHData]);
 
   // Generate concentration vs time data
   const concentrationData = React.useMemo(() => {
     const data = [];
     const maxTime = state.timeEnd || 10;
     const step = maxTime / 50;
-
+    
     for (let t = 0; t <= maxTime; t += step) {
       const progress = t / maxTime;
       const vb = progress * (calculated.equivalencePoint || 25) * 1.5;
-
+      
       const nA = (state.acidConcentration * state.acidVolume) / 1000;
       const nB = (state.baseConcentration * vb) / 1000;
       const vT = (state.acidVolume + vb) / 1000; // in L
-
+      
       const acidConc = Math.max(0, (nA - nB) / vT);
       const baseConc = Math.max(0, (nB - nA) / vT);
-
+      
       data.push({
         time: Number(t.toFixed(1)),
         acid: Number((acidConc * 1000).toFixed(4)), // in mmol/L
         base: Number((baseConc * 1000).toFixed(4)),
       });
     }
-
+    
     return data;
   }, [state, calculated.equivalencePoint]);
 
@@ -109,35 +96,35 @@ export const GraphsVisualization = ({
                 </div>
               )}
             </div>
-
+            
             <div className="h-64">
               <ResponsiveContainer width="100%" height="100%">
                 <AreaChart data={pHCurveData}>
                   <defs>
                     <linearGradient id="pHGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.25} />
-                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0.02} />
+                      <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.25}/>
+                      <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0.02}/>
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--border))" />
-                  <XAxis
-                    dataKey="volume"
+                  <XAxis 
+                    dataKey="volume" 
                     stroke="hsl(var(--muted-foreground))"
                     fontSize={10}
                     tickLine={false}
                     axisLine={false}
                   />
-                  <YAxis
-                    domain={[0, 14]}
+                  <YAxis 
+                    domain={[0, 14]} 
                     stroke="hsl(var(--muted-foreground))"
                     fontSize={10}
                     tickLine={false}
                     axisLine={false}
                   />
-                  <Tooltip
+                  <Tooltip 
                     cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '4 4' }}
-                    contentStyle={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                    contentStyle={{ 
+                      backgroundColor: 'rgba(255, 255, 255, 0.8)', 
                       backdropFilter: 'blur(8px)',
                       border: '1px solid hsl(var(--border))',
                       borderRadius: '12px',
@@ -147,18 +134,7 @@ export const GraphsVisualization = ({
                   />
                   <ReferenceLine y={7} stroke="hsl(var(--muted-foreground))" strokeDasharray="5 5" strokeOpacity={0.5} />
                   <ReferenceLine x={calculated.equivalencePoint} stroke="hsl(var(--destructive))" strokeDasharray="4 4" />
-                  <Area
-                    type="monotone"
-                    dataKey="pH"
-                    stroke="hsl(var(--primary))"
-                    strokeWidth={3}
-                    fill="url(#pHGradient)"
-                    dot={false}
-                    isAnimationActive
-                    animationDuration={1200}
-                    animationEasing="ease-in-out"
-                  />
-
+                  <Area type="monotone" dataKey="pH" stroke="hsl(var(--primary))" strokeWidth={2.5} fill="url(#pHGradient)" animationDuration={800} />
                   <ReferenceLine x={titratedVolume} stroke="hsl(var(--accent))" strokeWidth={2} />
                 </AreaChart>
               </ResponsiveContainer>
@@ -174,36 +150,15 @@ export const GraphsVisualization = ({
                   <CartesianGrid strokeDasharray="2 2" vertical={false} stroke="hsl(var(--border))" />
                   <XAxis dataKey="time" stroke="hsl(var(--muted-foreground))" fontSize={10} tickLine={false} axisLine={false} />
                   <YAxis stroke="hsl(var(--muted-foreground))" fontSize={10} tickLine={false} axisLine={false} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'rgba(255, 255, 255, 0.9)',
+                  <Tooltip 
+                    contentStyle={{ 
+                      backgroundColor: 'rgba(255, 255, 255, 0.9)', 
                       backdropFilter: 'blur(8px)',
                       borderRadius: '10px'
                     }}
                   />
-                  <Line
-                    type="monotone"
-                    dataKey="acid"
-                    name="[H+]"
-                    stroke="#ef4444"
-                    strokeWidth={2.5}
-                    dot={false}
-                    isAnimationActive
-                    animationDuration={900}
-                    animationEasing="ease-in-out"
-                  />
-
-                  <Line
-                    type="monotone"
-                    dataKey="base"
-                    name="[OH-]"
-                    stroke="#3b82f6"
-                    strokeWidth={2.5}
-                    dot={false}
-                    isAnimationActive
-                    animationDuration={900}
-                    animationEasing="ease-in-out"
-                  />
+                  <Line type="stepAfter" dataKey="acid" name="[H+]" stroke="#ef4444" strokeWidth={2} dot={false} animationDuration={600} />
+                  <Line type="stepAfter" dataKey="base" name="[OH-]" stroke="#3b82f6" strokeWidth={2} dot={false} animationDuration={600} />
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -286,7 +241,7 @@ export const GraphsVisualization = ({
                   </div>
                   <span className="text-[10px] text-green-600 font-bold uppercase tracking-widest">Active</span>
                 </div>
-
+                
                 <div className="p-3 rounded-xl bg-primary/5 border border-primary/10">
                   <p className="text-[10px] text-muted-foreground leading-relaxed">
                     Sensors calibrated for <strong>{state.temperature}°C</strong>. Signal bandwidth is optimal for high-frequency tracking.
