@@ -8,16 +8,16 @@ export const equation = (state) => {
 
     const sent = {
         "acid": {
-            "type": acid.type,
-            "formula": acid.value,
-            "species_formula": acid.s_value,
-            "species_charge": acid.c_value
+            "type": acid?.type,
+            "formula": acid?.value,
+            "species_formula": acid?.s_value,
+            "species_charge": acid?.c_value
         },
         "base": {
-            "type": base.type,
-            "formula": base.value,
-            "species_formula": base.s_value,
-            "species_charge": base.c_value
+            "type": base?.type,
+            "formula": base?.value,
+            "species_formula": base?.s_value,
+            "species_charge": base?.c_value
         }
     };
 
@@ -29,6 +29,8 @@ export const equation = (state) => {
             enabled: !!sent?.acid?.type && !!sent?.base?.type,
         }
     );
+
+    console.log(`equation data : ${data}`)
 
     return { data, loading, error };
 }

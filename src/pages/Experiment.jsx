@@ -28,30 +28,40 @@ const Experiment = () => {
     runSimulation,
     pauseSimulation,
     resetSimulation,
+    setTemperature,
   } = useExperimentState();
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header */}
+    <div 
+      className="min-h-screen bg-background flex flex-col relative overflow-hidden"
+      style={{
+        backgroundImage: 'url("/assets/images/homepage_bg.jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
       <ChatBox />
-      <header className="border-b border-border bg-card/80 backdrop-blur-sm sticky top-0 z-40">
-        <div className="flex items-center justify-between px-6 py-4">
+      {/* Header */}
+      <header className="border-b border-white/20 bg-white/40 backdrop-blur-md sticky top-0 z-40 shadow-sm">
+        <div className="flex items-center justify-between px-6 py-3">
           <div className="flex items-center gap-6">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => navigate("/")}
-              className="gap-2"
+              className="gap-2 hover:bg-white/20"
             >
               <ArrowLeft className="h-4 w-4" />
               Back
             </Button>
-            <div className="h-6 w-px bg-border" />
+            <div className="h-6 w-px bg-white/30" />
             <LabLogo size="sm" />
           </div>
 
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="bg-white/40 border-white/40">
               <Save className="h-4 w-4" />
             </Button>
           </div>
@@ -59,10 +69,10 @@ const Experiment = () => {
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 md:p-6">
+      <main className="flex-1 p-4 md:p-6 relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Experiment Title */}
-          <div className="mb-6">
+          <div className="mb-6 p-6 rounded-2xl bg-white/40 backdrop-blur-sm border border-white/40 shadow-sm">
             <h1 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-2">
               {isNewExperiment ? "Acid-Base Titration" : `Experiment #${id}`}
             </h1>
@@ -92,6 +102,7 @@ const Experiment = () => {
                   onBaseChange={setBase}
                   onReset={resetSimulation}
                   onVolumeChange={setTitratedVolume}
+                  onTemperatureChange={setTemperature}
                   maxVolume={calculated.equivalencePoint > 0 ? calculated.equivalencePoint * 2 : 50}
                   runSimulation={runSimulation}
                   pauseSimulation={pauseSimulation}

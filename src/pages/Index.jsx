@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { LabLogo } from "@/components/LabLogo";
-import { MoleculeDecoration } from "@/components/MoleculeDecoration";
 import { ExperimentSelector } from "@/components/ExperimentSelector";
 import { Plus, FolderOpen, Sparkles } from "lucide-react";
 
@@ -15,17 +14,23 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background lab-pattern relative overflow-hidden">
-      <MoleculeDecoration />
-      
-      {/* Subtle grid overlay */}
-      <div className="absolute inset-0 lab-grid opacity-30" />
-
+    <div 
+      className="min-h-screen bg-background relative overflow-hidden"
+      style={{
+        backgroundImage: 'url("/assets/images/homepage_bg.jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'fixed'
+      }}
+    >
       {/* Main content */}
       <div className="relative z-10 min-h-screen flex flex-col">
         {/* Header */}
-        <header className="p-6 md:p-8">
-          <LabLogo size="md" />
+        <header className="p-6 md:p-8 flex items-center justify-center md:justify-start">
+          <div className="bg-white/40 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/40 shadow-sm transition-all hover:shadow-md">
+            <LabLogo size="md" />
+          </div>
         </header>
 
         {/* Hero section */}

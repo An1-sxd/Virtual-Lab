@@ -12,6 +12,7 @@ const initialState = {
   currentTime: 0,
   isRunning: false,
   isPaused: false,
+  temperature: 25
 };
 
 export const useExperimentState = () => {
@@ -136,6 +137,10 @@ export const useExperimentState = () => {
     }));
   }, []);
 
+  const setTemperature = useCallback((temp) => {
+    setState(prev => ({ ...prev, temperature: temp }));
+  }, []);
+
   const runSimulation = useCallback(() => {
     setState(prev => ({ ...prev, isRunning: true, isPaused: false }));
   }, []);
@@ -165,6 +170,7 @@ export const useExperimentState = () => {
     setAcid,
     setBase,
     setTimeRange,
+    setTemperature,
     runSimulation,
     pauseSimulation,
     resetSimulation,

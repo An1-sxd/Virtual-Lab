@@ -23,7 +23,14 @@ export const substances = () => {
         const filtered = substances.filter(s => s.sub_type && s.sub_type.includes('acid'));
         const unique = Array.from(new Map(filtered.map(s => [s.formula, s])).values());
         return unique.length > 0
-            ? unique.map(s => ({ value: s.formula, label: `${s.formula} (${s.name})`, type: s.sub_type.split("_")[0], s_value: s.species_formula, c_value: s.species_charge }))
+            ? unique.map(s => ({ 
+                value: s.formula, 
+                label: `${s.formula} (${s.name})`, 
+                type: s.sub_type.split("_")[0], 
+                s_value: s.species_formula, 
+                c_value: s.species_charge,
+                pka: s.pka 
+              }))
             : defaultAcids;
     }, [substances, isError]);
 
@@ -32,7 +39,14 @@ export const substances = () => {
         const filtered = substances.filter(s => s.sub_type && s.sub_type.includes('base'));
         const unique = Array.from(new Map(filtered.map(s => [s.formula, s])).values());
         return unique.length > 0
-            ? unique.map(s => ({ value: s.formula, label: `${s.formula} (${s.name})`, type: s.sub_type.split("_")[0], s_value: s.species_formula, c_value: s.species_charge }))
+            ? unique.map(s => ({ 
+                value: s.formula, 
+                label: `${s.formula} (${s.name})`, 
+                type: s.sub_type.split("_")[0], 
+                s_value: s.species_formula, 
+                c_value: s.species_charge,
+                pka: s.pka 
+              }))
             : defaultBases;
     }, [substances, isError]);
 

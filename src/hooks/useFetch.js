@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const ip = "192.168.43.82:5000"
+const ip = "localhost:5000"
 
 export const useFetch = (key, options = {}) => {
   const [data, setData] = useState(null);

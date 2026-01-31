@@ -1,9 +1,23 @@
 import React from 'react';
-import { Beaker, Plus, Minus, Play, Pause, RotateCcw } from 'lucide-react';
+import { Beaker, Plus, Minus, Play, Pause, RotateCcw, Thermometer } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
 import { FlaskVisualization } from './FlaskVisualization';
 
 import { substances } from '../../lib/substances';
@@ -19,6 +33,7 @@ export const AcidBaseSetup = ({
   runSimulation,
   pauseSimulation,
   resetSimulation,
+  onTemperatureChange,
 }) => {
   const { acids, bases, isLoading } = substances();
 
@@ -182,22 +197,41 @@ export const AcidBaseSetup = ({
             <div className="grid grid-cols-2 gap-3">
               <div className="col-span-2">
                 <Label className="text-xs text-muted-foreground">Type</Label>
-                <Select 
-                  value={state.acidType}
-                  onValueChange={(v) => onAcidChange(v, state.acidConcentration, state.acidVolume)}
-                  disabled={isLoading}
-                >
-                  <SelectTrigger className="bg-background">
-                    <SelectValue placeholder={isLoading ? "Loading..." : "Select Acid"} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-card border border-border z-50">
-                    {acids.map((acid, key) => (
-                      <SelectItem key={key} value={acid.value}>
-                        {acid.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Popover>
+                  <PopoverTrigger asChild>
+                     <Button
+                      variant="outline"
+                      role="combobox"
+                      className="w-full justify-between"
+                      disabled={isLoading}
+                    >
+                      {state.acidType
+                        ? acids.find((acid) => acid.value === state.acidType)?.label
+                        : isLoading ? "Loading..." : "Select Acid"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[300px] p-0" align="start">
+                    <Command>
+                      <CommandInput placeholder="Search acid..." className="h-9" />
+                      <CommandList className="max-h-[160px] overflow-y-auto">
+                        <CommandEmpty>No acid found.</CommandEmpty>
+                        <CommandGroup>
+                          {acids.map((acid) => (
+                            <CommandItem
+                              key={acid.value}
+                              value={acid.label} // Search by label
+                              onSelect={() => {
+                                onAcidChange(acid.value, state.acidConcentration, state.acidVolume);
+                              }}
+                            >
+                              {acid.label}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
               <div>
                 <Label className="text-xs text-muted-foreground">Cₐ (mol/L)</Label>
@@ -237,22 +271,41 @@ export const AcidBaseSetup = ({
             <div className="grid grid-cols-2 gap-3">
               <div className="col-span-2">
                 <Label className="text-xs text-muted-foreground">Type</Label>
-                <Select 
-                  value={state.baseType} 
-                  onValueChange={(v) => onBaseChange(v, state.baseConcentration, state.baseVolume)}
-                  disabled={isLoading}
-                >
-                  <SelectTrigger className="bg-background">
-                    <SelectValue placeholder={isLoading ? "Loading..." : "Select Base"} />
-                  </SelectTrigger>
-                  <SelectContent className="bg-card border border-border z-50">
-                    {bases.map((base, key) => (
-                      <SelectItem key={key} value={base.value}>
-                        {base.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className="w-full justify-between"
+                      disabled={isLoading}
+                    >
+                      {state.baseType
+                        ? bases.find((base) => base.value === state.baseType)?.label
+                        : isLoading ? "Loading..." : "Select Base"}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[300px] p-0" align="start">
+                    <Command>
+                      <CommandInput placeholder="Search base..." className="h-9" />
+                      <CommandList className="max-h-[160px] overflow-y-auto">
+                        <CommandEmpty>No base found.</CommandEmpty>
+                        <CommandGroup>
+                          {bases.map((base) => (
+                            <CommandItem
+                              key={base.value}
+                              value={base.label}
+                              onSelect={() => {
+                                onBaseChange(base.value, state.baseConcentration, state.baseVolume);
+                              }}
+                            >
+                              {base.label}
+                            </CommandItem>
+                          ))}
+                        </CommandGroup>
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
               </div>
               <div>
                 <Label className="text-xs text-muted-foreground">C_b (mol/L)</Label>
@@ -280,6 +333,44 @@ export const AcidBaseSetup = ({
                 />
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Temperature Slider - Added at the bottom */}
+      <div className="mt-8 pt-6 border-t border-border">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <div className="p-1.5 rounded-md bg-amber-500/10 text-amber-600">
+              <Thermometer className="h-4 w-4" />
+            </div>
+            <div>
+              <Label className="text-sm font-bold text-foreground">Experimental Temperature</Label>
+              <p className="text-[10px] text-muted-foreground uppercase tracking-tight">Affects reaction kinetics and equilibrium constants</p>
+            </div>
+          </div>
+          <div className="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20">
+            <span className="font-mono text-sm font-bold text-amber-600">{state.temperature}°C</span>
+          </div>
+        </div>
+        
+        <div className="px-2">
+          <input
+            type="range"
+            min="20"
+            max="40"
+            step="1"
+            value={state.temperature}
+            onChange={(e) => onTemperatureChange(Number(e.target.value))}
+            className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-amber-500"
+            style={{
+              background: `linear-gradient(to right, #f59e0b 0%, #f59e0b ${((state.temperature - 20) / 20) * 100}%, hsl(var(--muted)) ${((state.temperature - 20) / 20) * 100}%, hsl(var(--muted)) 100%)`
+            }}
+          />
+          <div className="flex justify-between mt-2 text-[10px] font-bold text-muted-foreground uppercase">
+            <span>20°C (Standard)</span>
+            <span>30°C</span>
+            <span>40°C (High)</span>
           </div>
         </div>
       </div>
