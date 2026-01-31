@@ -1,7 +1,7 @@
 import React from 'react';
 import { FileText } from 'lucide-react';
 import { substances } from '../../lib/substances';
-import { useApi, useApiBody } from '../../hooks/useApi';
+import { useFetch } from '../../hooks/useFetch';
 
 export const ReactionEquations = ({
   state,
@@ -14,28 +14,34 @@ export const ReactionEquations = ({
   const base = bases.find(b => b.value === state.baseType);
   console.log(acid, base)
 
-  const sent = React.useMemo(() => {
-    if (!acid || !base) return null;
-    return {
-      "acid": {
-        "type": acid.type,
-        "formula": acid.value,
-        "species_formula": acid.s_value,
-        "species_charge": acid.c_value
-      },
-      "base": {
-        "type": base.type,
-        "formula": base.value,
-        "species_formula": base.s_value,
-        "species_charge": base.c_value
-      }
-    };
-  }, [acid, base]);
+  const sent = {
+    "acid": {
+      "type": acid.type,
+      "formula": acid.value,
+      "species_formula": acid.s_value,
+      "species_charge": acid.c_value
+    },
+    "base": {
+      "type": base.type,
+      "formula": base.value,
+      "species_formula": base.s_value,
+      "species_charge": base.c_value
+    }
+  };
 
   console.log("Sent to API:", sent);
 
-  const { data: eq, isLoading: eq_loading, isError } = useApiBody("operations/equation", sent, { enabled: !!sent });
-  console.log("Equation Data:", eq);
+  const { data, loading, error } = useFetch(
+    "operations/equation",
+    {
+      method: "POST",
+      body: sent,
+      enabled: !!sent,
+    }
+  );
+
+  console.log(loading ? "wait" : data);
+
 
   const getReactionEquation = () => {
     const reactions = {

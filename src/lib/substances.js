@@ -1,5 +1,5 @@
-import { useApi } from '@/hooks/useApi';
 import React from 'react';
+import { useFetch } from '../hooks/useFetch';
 
 const defaultAcids = [
     { value: 'HCl', label: 'HCl (Hydrochloric Acid)' },
@@ -16,7 +16,7 @@ const defaultAcids = [
   ];
 
 export const substances = () => {
-    const { data: substances, isLoading, isError } = useApi("substances");
+    const { data: substances, loading: isLoading, error: isError } = useFetch("substances");
 
     const acids = React.useMemo(() => {
         if (!substances || isError) return defaultAcids;

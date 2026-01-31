@@ -183,7 +183,7 @@ export const AcidBaseSetup = ({
               <div className="col-span-2">
                 <Label className="text-xs text-muted-foreground">Type</Label>
                 <Select 
-                  value={state.acidType} 
+                  value={state.acidType}
                   onValueChange={(v) => onAcidChange(v, state.acidConcentration, state.acidVolume)}
                   disabled={isLoading}
                 >
@@ -191,8 +191,8 @@ export const AcidBaseSetup = ({
                     <SelectValue placeholder={isLoading ? "Loading..." : "Select Acid"} />
                   </SelectTrigger>
                   <SelectContent className="bg-card border border-border z-50">
-                    {acids.map((acid) => (
-                      <SelectItem key={acid.value} value={acid.value}>
+                    {acids.map((acid, key) => (
+                      <SelectItem key={key} value={acid.value}>
                         {acid.label}
                       </SelectItem>
                     ))}
@@ -246,8 +246,8 @@ export const AcidBaseSetup = ({
                     <SelectValue placeholder={isLoading ? "Loading..." : "Select Base"} />
                   </SelectTrigger>
                   <SelectContent className="bg-card border border-border z-50">
-                    {bases.map((base) => (
-                      <SelectItem key={base.value} value={base.value}>
+                    {bases.map((base, key) => (
+                      <SelectItem key={key} value={base.value}>
                         {base.label}
                       </SelectItem>
                     ))}
