@@ -275,9 +275,9 @@ export const ReactionEquations = ({
               </div>
 
              {/* pOH Value */}
-             <div className="bg-indigo-50/80 dark:bg-indigo-950/20 rounded-xl p-3 border border-indigo-200 dark:border-indigo-900/30 shadow-sm">
-                <p className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-1">Current pOH</p>
-                <p className="font-mono text-2xl font-black text-indigo-700 dark:text-indigo-300">
+             <div className="bg-primary/5 dark:bg-primary/10 rounded-xl p-3 border border-primary/20 shadow-sm">
+                <p className="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">Current pOH</p>
+                <p className="font-mono text-2xl font-black text-primary">
                     {calcData?.pOH !== undefined 
                         ? Number(calcData.pOH).toFixed(2) 
                         : (14 - calculated.pH).toFixed(2)}

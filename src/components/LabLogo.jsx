@@ -1,29 +1,25 @@
-import { FlaskConical } from "lucide-react";
-
-const sizeClasses = {
-  sm: "h-8 w-8",
-  md: "h-12 w-12",
-  lg: "h-16 w-16",
-};
-
-const textSizes = {
-  sm: "text-xl",
-  md: "text-2xl",
-  lg: "text-3xl",
-};
-
 export const LabLogo = ({ size = "md" }) => {
+  const sizeMap = {
+    sm: { img: "h-8", text: "text-lg", gap: "gap-2" },
+    md: { img: "h-12", text: "text-2xl", gap: "gap-3" },
+    lg: { img: "h-16", text: "text-4xl", gap: "gap-4" },
+  };
+
+  const currentSize = sizeMap[size];
+
   return (
-    <div className="flex items-center gap-3">
-      <div className="lab-gradient rounded-xl p-2.5 lab-glow">
-        <FlaskConical className={`${sizeClasses[size]} text-primary-foreground`} />
-      </div>
-      <div className="flex flex-col">
-        <span className={`font-display font-bold ${textSizes[size]} lab-gradient-text`}>
-          VirtualLab
+    <div className={`flex items-center ${currentSize.gap}`}>
+      <img 
+        src="/assets/images/beaker_logo.png" 
+        alt="Logo" 
+        className={`${currentSize.img} w-auto object-contain mix-blend-multiply`}
+      />
+      <div className="flex flex-col leading-none">
+        <span className={`font-display font-bold ${currentSize.text} text-[#1a5b8a] dark:text-[#23c4c4]`}>
+          Virtual
         </span>
-        <span className="text-xs text-muted-foreground tracking-wider uppercase">
-          Experiment Platform
+        <span className={`font-display font-bold ${currentSize.text} text-[#1a5b8a] dark:text-[#23c4c4]`}>
+          Lab
         </span>
       </div>
     </div>

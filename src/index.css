@@ -8,7 +8,7 @@
 
 @layer base {
   :root {
-    /* Core palette - Scientific Teal Theme (Refined) */
+    /* Core palette - Deep Ocean Blue Theme */
     --background: 210 17% 98%;    /* #F8F9FA */
     --foreground: 210 40% 11%;
 
@@ -18,39 +18,39 @@
     --popover: 0 0% 100%;
     --popover-foreground: 210 40% 11%;
 
-    /* Primary - Bright Teal (#23c4c4) */
-    --primary: 180 70% 45%;
+    /* Primary - Deep Ocean Blue (#1A5B8A) */
+    --primary: 205 68% 32%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary - Light Cyan (#EBF8F8) */
-    --secondary: 180 40% 95%;
-    --secondary-foreground: 180 70% 45%;
+    /* Secondary - Light Cyan-Blue Tint */
+    --secondary: 205 40% 95%;
+    --secondary-foreground: 205 68% 32%;
 
     /* Muted (#F1F5F9) */
     --muted: 210 40% 96%;
     --muted-foreground: 215 16% 47%;
 
-    /* Accent - Bright Teal (#23c4c4) */
-    --accent: 180 70% 45%;
+    /* Accent - Deep Ocean Blue (#1A5B8A) */
+    --accent: 205 68% 32%;
     --accent-foreground: 0 0% 100%;
 
     /* Status Colors */
     --destructive: 0 72% 51%;    /* #DC2626 */
     --destructive-foreground: 0 0% 100%;
     --success: 142 71% 36%;      /* #16A34A */
-    --info: 180 70% 45%;         /* #23c4c4 */
+    --info: 205 68% 32%;         /* #1A5B8A */
 
     --border: 214 32% 91%;       /* #E2E8F0 */
     --input: 214 32% 91%;
-    --ring: 180 70% 45%;
+    --ring: 205 68% 32%;
 
     --radius: 0.75rem;
 
     /* Custom Lab Colors */
-    --lab-glow: 180 70% 45%;
-    --lab-surface: 180 20% 98%;
-    --lab-gradient-start: 180 70% 45%;
-    --lab-gradient-end: 180 80% 42%;
+    --lab-glow: 205 68% 32%;
+    --lab-surface: 205 20% 98%;
+    --lab-gradient-start: 205 68% 32%;
+    --lab-gradient-end: 205 80% 45%;
     
     /* Shadows */
     --shadow-sm: 0 1px 2px 0 hsl(210 20% 11% / 0.05);
@@ -70,7 +70,7 @@
   }
 
   .dark {
-    /* Core palette - Scientific Teal Theme (Dark Mode Refined) */
+    /* Core palette - Deep Ocean Blue Theme (Dark Mode) */
     --background: 210 29% 6%;    /* #0C1116 */
     --foreground: 210 20% 98%;
 
@@ -80,35 +80,35 @@
     --popover: 215 25% 10%;
     --popover-foreground: 210 20% 98%;
 
-    /* Primary - Bright Teal (#23C4C4) */
-    --primary: 180 70% 45%;
+    /* Primary - Ocean Blue Lightened for Dark Mode (#3a8cc1) */
+    --primary: 205 60% 55%;
     --primary-foreground: 210 40% 8%;
 
-    /* Secondary - Dark Teal-Grey (#202D2D) */
-    --secondary: 180 17% 15%;
-    --secondary-foreground: 180 70% 45%;
+    /* Secondary - Dark Blue-Grey */
+    --secondary: 205 17% 15%;
+    --secondary-foreground: 205 68% 45%;
 
     /* Muted (#1E293B) */
     --muted: 217 33% 17%;
     --muted-foreground: 215 20% 65%;
 
-    /* Accent - Neon Cyan (#17E6E6) */
-    --accent: 180 82% 50%;
+    /* Accent - Bright Ocean Blue */
+    --accent: 205 82% 60%;
     --accent-foreground: 210 40% 8%;
 
     --destructive: 0 62.8% 50%;
     --destructive-foreground: 0 0% 100%;
     --success: 142 70% 45%;
-    --info: 180 70% 45%;
+    --info: 205 60% 55%;
 
-    --border: 217 19% 23%;       /* #2D3748 approach */
+    --border: 217 19% 23%;
     --input: 217 19% 23%;
-    --ring: 180 70% 45%;
+    --ring: 205 60% 55%;
 
-    --lab-glow: 180 80% 55%;
+    --lab-glow: 205 80% 65%;
     --lab-surface: 210 35% 10%;
-    --lab-gradient-start: 180 70% 40%;
-    --lab-gradient-end: 180 82% 50%;
+    --lab-gradient-start: 205 70% 50%;
+    --lab-gradient-end: 205 82% 60%;
 
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
