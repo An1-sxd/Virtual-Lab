@@ -1,7 +1,7 @@
 import ChatMessages from "./ChatMessages";
 import ChatInput from "./ChatInput";
 
-export default function ChatWindow({ messages, onSend, onClose }) {
+export default function ChatWindow({ messages, loading, onSend, onClose }) {
   return (
     <div
       className="
@@ -16,7 +16,7 @@ export default function ChatWindow({ messages, onSend, onClose }) {
         </button>
       </div>
 
-      <ChatMessages messages={messages} />
+      <ChatMessages messages={messages} loading={loading} />
       <ChatInput onSend={onSend} />
     </div>
   );
